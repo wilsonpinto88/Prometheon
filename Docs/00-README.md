@@ -58,6 +58,13 @@ Welcome to the Prometheon documentation. This directory contains comprehensive g
 - Debugging tips
 - Keep this open while coding!
 
+### [ProgressTracker/Session-Log.md](./ProgressTracker/Session-Log.md) 📝
+- Development session tracking
+- What was accomplished in each session
+- Next steps and future work
+- Session continuity reference
+- **Update at the end of each session**
+
 ## Quick Start
 
 1. Read [01-Technology-Stack.md](./01-Technology-Stack.md) for setup requirements
