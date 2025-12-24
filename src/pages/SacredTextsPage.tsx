@@ -1,4 +1,18 @@
+import { useState, useMemo } from 'react'
+import RealmFilter from '../components/sacred-texts/RealmFilter'
+import TextCard from '../components/sacred-texts/TextCard'
+import { mockTexts } from '../data/mockTexts'
+
 const SacredTextsPage = () => {
+  const [selectedRealm, setSelectedRealm] = useState<string | null>(null)
+
+  const filteredTexts = useMemo(() => {
+    if (!selectedRealm) return mockTexts
+    return mockTexts.filter(
+      (text) => text.realm.toLowerCase() === selectedRealm.toLowerCase()
+    )
+  }, [selectedRealm])
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
@@ -12,38 +26,34 @@ const SacredTextsPage = () => {
       </div>
 
       {/* Realm Filters */}
-      <div className="mb-6 flex flex-wrap gap-2">
-        <button className="bg-primary-500 text-white px-4 py-2 rounded-lg">
-          All Realms
-        </button>
-        <button className="bg-dark-surface text-gray-300 hover:bg-dark-border px-4 py-2 rounded-lg transition-colors">
-          Tartarus
-        </button>
-        <button className="bg-dark-surface text-gray-300 hover:bg-dark-border px-4 py-2 rounded-lg transition-colors">
-          Gaia
-        </button>
-        <button className="bg-dark-surface text-gray-300 hover:bg-dark-border px-4 py-2 rounded-lg transition-colors">
-          Midgard
-        </button>
-        <button className="bg-dark-surface text-gray-300 hover:bg-dark-border px-4 py-2 rounded-lg transition-colors">
-          Asgard
-        </button>
-        <button className="bg-dark-surface text-gray-300 hover:bg-dark-border px-4 py-2 rounded-lg transition-colors">
-          Valhalla
-        </button>
-        <button className="bg-dark-surface text-gray-300 hover:bg-dark-border px-4 py-2 rounded-lg transition-colors">
-          Elysium
-        </button>
-        <button className="bg-dark-surface text-gray-300 hover:bg-dark-border px-4 py-2 rounded-lg transition-colors">
-          Prometheon
-        </button>
+      <div className="mb-6">
+        <RealmFilter
+          selectedRealm={selectedRealm}
+          onRealmChange={setSelectedRealm}
+        />
       </div>
 
       {/* Text Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <p className="text-gray-400 col-span-full">
-          Sacred text cards will appear here...
-        </p>
+        {filteredTexts.length > 0 ? (
+          filteredTexts.map((text) => (
+            <TextCard
+              key={text.id}
+              id={text.id}
+              title={text.title}
+              author={text.author}
+              realm={text.realm}
+              description={text.description}
+              pages={text.pages}
+              difficulty={text.difficulty}
+              completed={text.completed}
+            />
+          ))
+        ) : (
+          <p className="text-gray-400 col-span-full text-center py-8">
+            No texts found in this realm.
+          </p>
+        )}
       </div>
     </div>
   )

@@ -218,3 +218,59 @@ VITE_ENABLE_ANALYTICS=false
 - Safari: Latest 2 versions
 - Mobile browsers: iOS Safari, Chrome Mobile
 
+---
+
+## Sacred Texts Convention
+
+The **Sacred Texts** feature in Prometheon is based on the canonical list of "10 Books for Software Engineers" that are essential for becoming a 10x software engineer. This list is standardized and should remain consistent across the application.
+
+### The 10 Sacred Texts
+
+1. **The Pragmatic Programmer** - Andrew Hunt & David Thomas
+   - *Teaches:* Core software development process
+
+2. **Designing Data-Intensive Applications** - Martin Kleppmann
+   - *Teaches:* Distributed systems
+
+3. **The Mythical Man-Month** - Frederick P. Brooks Jr.
+   - *Teaches:* Managing large-scale projects
+
+4. **Refactoring** - Martin Fowler
+   - *Teaches:* Techniques to restructure code for maintainability
+
+5. **Software Architecture: The Hard Parts** - Neal Ford, Mark Richards, Pramod Sadalage, Zhamak Dehghani
+   - *Teaches:* Making better architectural decisions with tradeoffs
+
+6. **Working Effectively with Legacy Code** - Michael C. Feathers
+   - *Teaches:* Techniques to refactor legacy code
+
+7. **Database Internals** - Alex Petrov
+   - *Teaches:* How databases work: storage engines and distributed systems
+
+8. **A Philosophy of Software Design** - John Ousterhout
+   - *Teaches:* How to write clean and maintainable code
+
+9. **Clean Code** - Robert C. Martin
+   - *Teaches:* Practices to write easy-to-understand code and refactor
+
+10. **Why Programs Fail** - Andreas Zeller
+    - *Teaches:* Systematic debugging
+
+### Implementation Guidelines
+
+- **Data Source**: The sacred texts are defined in `src/data/mockTexts.ts`
+- **Immutability**: This list should not be modified without updating this documentation
+- **Realm Assignment**: Each book is assigned to a realm based on its difficulty and topic
+- **Consistency**: All references to sacred texts should use this canonical list
+- **Future API**: When connecting to a backend, ensure the API returns these exact 10 books
+
+### Realm Distribution
+
+- **Tartarus**: Beginner/Foundation books
+- **Gaia**: Practical application books
+- **Midgard**: Code quality and design books
+- **Asgard**: Advanced systems and architecture books
+- **Valhalla**: Project management and team books
+- **Elysium**: Advanced architecture and design books
+- **Prometheon**: Mastery-level technical deep dives
+
