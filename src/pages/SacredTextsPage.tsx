@@ -2,16 +2,28 @@ import { useState, useMemo } from 'react'
 import RealmFilter from '../features/sacred-texts/components/RealmFilter'
 import TextCard from '../features/sacred-texts/components/TextCard'
 import { mockTexts } from '../data/mockTexts'
+import useLocalStorage from '../shared/hooks/useLocalStorage'
+import useDebounce from '../shared/hooks/useDebounce'
+import Input from '../shared/ui/Input'
 
 const SacredTextsPage = () => {
-  const [selectedRealm, setSelectedRealm] = useState<string | null>(null)
+  const [selectedRealm, setSelectedRealm] = useLocalStorage<string | null>(
+    'sacred-texts-realm-filter',
+    null
+  )
+  const [searchQuery, setSearchQuery] = useState('')
+  const debouncedSearch = useDebounce(searchQuery, 300)
 
   const filteredTexts = useMemo(() => {
-    if (!selectedRealm) return mockTexts
-    return mockTexts.filter(
-      (text) => text.realm.toLowerCase() === selectedRealm.toLowerCase()
-    )
-  }, [selectedRealm])
+    return mockTexts.filter((text) => {
+      const matchesRealm = !selectedRealm || text.realm.toLowerCase() === selectedRealm.toLowerCase()
+      const matchesSearch =
+        !debouncedSearch ||
+        text.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+        text.author.toLowerCase().includes(debouncedSearch.toLowerCase())
+      return matchesRealm && matchesSearch
+    })
+  }, [selectedRealm, debouncedSearch])
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -25,7 +37,14 @@ const SacredTextsPage = () => {
         </p>
       </div>
 
-      {/* Realm Filters */}
+      <div className="mb-4">
+        <Input
+          placeholder="Search by title or author..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+
       <div className="mb-6">
         <RealmFilter
           selectedRealm={selectedRealm}
@@ -33,7 +52,6 @@ const SacredTextsPage = () => {
         />
       </div>
 
-      {/* Text Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredTexts.length > 0 ? (
           filteredTexts.map((text) => (
@@ -51,7 +69,7 @@ const SacredTextsPage = () => {
           ))
         ) : (
           <p className="text-gray-400 col-span-full text-center py-8">
-            No texts found in this realm.
+            No texts found.
           </p>
         )}
       </div>
@@ -60,4 +78,3 @@ const SacredTextsPage = () => {
 }
 
 export default SacredTextsPage
-
