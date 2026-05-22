@@ -13,14 +13,15 @@ const realms = [
   { id: 'asgard', name: 'Asgard' },
   { id: 'valhalla', name: 'Valhalla' },
   { id: 'elysium', name: 'Elysium' },
-  { id: 'prometheon', name: 'Prometheon' }
+  { id: 'prometheon', name: 'Prometheon' },
 ]
 
 const RealmFilter = ({ selectedRealm, onRealmChange }: RealmFilterProps) => {
   return (
     <div className="flex flex-wrap gap-2">
       {realms.map((realm) => {
-        const isSelected = selectedRealm === realm.id || (realm.id === 'all' && selectedRealm === null)
+        const isSelected =
+          selectedRealm === realm.id || (realm.id === 'all' && selectedRealm === null)
         return (
           <button
             key={realm.id}
@@ -41,4 +42,3 @@ const RealmFilter = ({ selectedRealm, onRealmChange }: RealmFilterProps) => {
 }
 
 export default RealmFilter
-

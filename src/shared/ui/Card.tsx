@@ -14,4 +14,3 @@ const Card = ({ children, className = '' }: CardProps) => {
 }
 
 export default Card
-

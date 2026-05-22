@@ -25,12 +25,9 @@ const Input = ({ label, error, className = '', ...props }: InputProps) => {
         )}
         {...props}
       />
-      {error && (
-        <p className="mt-1 text-sm text-red-400">{error}</p>
-      )}
+      {error && <p className="mt-1 text-sm text-red-400">{error}</p>}
     </div>
   )
 }
 
 export default Input
-

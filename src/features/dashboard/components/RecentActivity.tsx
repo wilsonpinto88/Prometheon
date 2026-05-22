@@ -1,4 +1,4 @@
-import Card from '../shared/ui/Card'
+import Card from '../../../shared/ui/Card'
 
 interface Activity {
   id: string
@@ -9,41 +9,11 @@ interface Activity {
 }
 
 const activities: Activity[] = [
-  {
-    id: '1',
-    type: 'task',
-    title: 'Completed "Build a Todo App"',
-    time: '2 hours ago',
-    icon: '✓'
-  },
-  {
-    id: '2',
-    type: 'text',
-    title: 'Read "Clean Code" Chapter 3',
-    time: '5 hours ago',
-    icon: '📚'
-  },
-  {
-    id: '3',
-    type: 'achievement',
-    title: 'Unlocked "First Steps" achievement',
-    time: '1 day ago',
-    icon: '🏆'
-  },
-  {
-    id: '4',
-    type: 'task',
-    title: 'Started "React Hooks Challenge"',
-    time: '2 days ago',
-    icon: '🚀'
-  },
-  {
-    id: '5',
-    type: 'text',
-    title: 'Bookmarked "System Design Patterns"',
-    time: '3 days ago',
-    icon: '⭐'
-  }
+  { id: '1', type: 'task', title: 'Completed "Build a Todo App"', time: '2 hours ago', icon: '✓' },
+  { id: '2', type: 'text', title: 'Read "Clean Code" Chapter 3', time: '5 hours ago', icon: '📚' },
+  { id: '3', type: 'achievement', title: 'Unlocked "First Steps" achievement', time: '1 day ago', icon: '🏆' },
+  { id: '4', type: 'task', title: 'Started "React Hooks Challenge"', time: '2 days ago', icon: '🚀' },
+  { id: '5', type: 'text', title: 'Bookmarked "System Design Patterns"', time: '3 days ago', icon: '⭐' },
 ]
 
 const RecentActivity = () => {
@@ -71,4 +41,3 @@ const RecentActivity = () => {
 }
 
 export default RecentActivity
-

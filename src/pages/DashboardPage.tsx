@@ -1,7 +1,7 @@
-import RealmProgress from '../components/dashboard/RealmProgress'
-import RecentActivity from '../components/dashboard/RecentActivity'
-import QuickActions from '../components/dashboard/QuickActions'
-import Card from '../components/shared/ui/Card'
+import RealmProgress from '../features/dashboard/components/RealmProgress'
+import RecentActivity from '../features/dashboard/components/RecentActivity'
+import QuickActions from '../features/dashboard/components/QuickActions'
+import Card from '../shared/ui/Card'
 
 const DashboardPage = () => {
   return (

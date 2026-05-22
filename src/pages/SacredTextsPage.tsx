@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
-import RealmFilter from '../components/sacred-texts/RealmFilter'
-import TextCard from '../components/sacred-texts/TextCard'
+import RealmFilter from '../features/sacred-texts/components/RealmFilter'
+import TextCard from '../features/sacred-texts/components/TextCard'
 import { mockTexts } from '../data/mockTexts'
 
 const SacredTextsPage = () => {

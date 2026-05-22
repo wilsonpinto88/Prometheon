@@ -12,21 +12,21 @@ const Badge = ({
   children,
   variant = 'default',
   size = 'md',
-  className = ''
+  className = '',
 }: BadgeProps) => {
   const baseStyles = 'inline-flex items-center font-medium rounded-full'
-  
+
   const variants = {
     default: 'bg-dark-surface text-gray-300',
     success: 'bg-green-500/20 text-green-400',
     warning: 'bg-yellow-500/20 text-yellow-400',
     danger: 'bg-red-500/20 text-red-400',
-    info: 'bg-blue-500/20 text-blue-400'
+    info: 'bg-blue-500/20 text-blue-400',
   }
-  
+
   const sizes = {
     sm: 'px-2 py-0.5 text-xs',
-    md: 'px-2.5 py-1 text-sm'
+    md: 'px-2.5 py-1 text-sm',
   }
 
   return (
@@ -37,4 +37,3 @@ const Badge = ({
 }
 
 export default Badge
-

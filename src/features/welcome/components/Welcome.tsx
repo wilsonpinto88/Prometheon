@@ -8,7 +8,7 @@ const Welcome = () => {
         <p className="text-gray-300 mb-8">
           Your React learning journey begins here. Let's build something amazing together!
         </p>
-        
+
         <div className="bg-dark-card p-6 rounded-lg border border-dark-border">
           <h2 className="text-2xl font-semibold mb-4">Getting Started</h2>
           <p className="text-gray-400 mb-4">

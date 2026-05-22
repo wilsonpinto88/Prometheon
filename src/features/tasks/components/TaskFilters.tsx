@@ -1,4 +1,4 @@
-import Input from '../shared/ui/Input'
+import Input from '../../../shared/ui/Input'
 
 interface TaskFiltersProps {
   searchQuery: string
@@ -15,7 +15,7 @@ const TaskFilters = ({
   difficultyFilter,
   onDifficultyChange,
   typeFilter,
-  onTypeChange
+  onTypeChange,
 }: TaskFiltersProps) => {
   return (
     <div className="flex flex-col sm:flex-row gap-4">
@@ -52,4 +52,3 @@ const TaskFilters = ({
 }
 
 export default TaskFilters
-

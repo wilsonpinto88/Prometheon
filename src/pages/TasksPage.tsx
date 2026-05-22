@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
-import TaskFilters from '../components/tasks/TaskFilters'
-import TaskCard from '../components/tasks/TaskCard'
+import TaskFilters from '../features/tasks/components/TaskFilters'
+import TaskCard from '../features/tasks/components/TaskCard'
 import { mockTasks } from '../data/mockTasks'
 
 const TasksPage = () => {

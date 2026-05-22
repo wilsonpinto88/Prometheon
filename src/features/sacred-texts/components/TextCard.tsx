@@ -1,6 +1,6 @@
-import Card from '../shared/ui/Card'
-import Badge from '../shared/ui/Badge'
-import Button from '../shared/ui/Button'
+import Card from '../../../shared/ui/Card'
+import Badge from '../../../shared/ui/Badge'
+import Button from '../../../shared/ui/Button'
 
 interface TextCardProps {
   id: string
@@ -20,12 +20,12 @@ const TextCard = ({
   description,
   pages,
   difficulty,
-  completed = false
+  completed = false,
 }: TextCardProps) => {
   const difficultyColors = {
     Beginner: 'success',
     Intermediate: 'warning',
-    Advanced: 'danger'
+    Advanced: 'danger',
   } as const
 
   return (
@@ -41,19 +41,15 @@ const TextCard = ({
           </Badge>
         )}
       </div>
-      
+
       <p className="text-gray-300 text-sm mb-4 line-clamp-2">{description}</p>
-      
+
       <div className="flex items-center gap-2 mb-4 flex-wrap">
-        <Badge variant="info" size="sm">
-          {realm}
-        </Badge>
-        <Badge variant={difficultyColors[difficulty]} size="sm">
-          {difficulty}
-        </Badge>
+        <Badge variant="info" size="sm">{realm}</Badge>
+        <Badge variant={difficultyColors[difficulty]} size="sm">{difficulty}</Badge>
         <span className="text-xs text-gray-500">{pages} pages</span>
       </div>
-      
+
       <Button variant="primary" size="sm" className="w-full">
         {completed ? 'Review' : 'Start Reading'}
       </Button>
@@ -62,4 +58,3 @@ const TextCard = ({
 }
 
 export default TextCard
-

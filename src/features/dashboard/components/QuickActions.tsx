@@ -1,5 +1,5 @@
-import Card from '../shared/ui/Card'
-import Button from '../shared/ui/Button'
+import Card from '../../../shared/ui/Card'
+import Button from '../../../shared/ui/Button'
 import { Link } from 'react-router-dom'
 
 const QuickActions = () => {
@@ -29,4 +29,3 @@ const QuickActions = () => {
 }
 
 export default QuickActions
-

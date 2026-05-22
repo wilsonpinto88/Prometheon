@@ -1,23 +1,7 @@
-export interface SacredText {
-  id: string
-  title: string
-  author: string
-  realm: string
-  description: string
-  pages: number
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced'
-  completed: boolean
-}
+import { SacredText } from '../shared/types/sacredText'
 
-/**
- * Sacred Texts - The 10 Books for 10x Software Engineers
- * 
- * These are the canonical books that form the foundation of the Prometheon learning platform.
- * This list is based on the "10 Books for Software Engineers" standard and should not be modified
- * without updating the convention documentation.
- * 
- * Reference: Docs/01-Technology-Stack.md - Sacred Texts Convention
- */
+export type { SacredText }
+
 export const mockTexts: SacredText[] = [
   {
     id: '1',

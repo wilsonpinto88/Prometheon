@@ -1,4 +1,4 @@
-import Card from '../shared/ui/Card'
+import Card from '../../../shared/ui/Card'
 
 interface Realm {
   name: string
@@ -13,7 +13,7 @@ const realms: Realm[] = [
   { name: 'Asgard', progress: 30, icon: '⚡' },
   { name: 'Valhalla', progress: 10, icon: '🛡️' },
   { name: 'Elysium', progress: 0, icon: '✨' },
-  { name: 'Prometheon', progress: 0, icon: '🏆' }
+  { name: 'Prometheon', progress: 0, icon: '🏆' },
 ]
 
 const RealmProgress = () => {
@@ -44,4 +44,3 @@ const RealmProgress = () => {
 }
 
 export default RealmProgress
-
