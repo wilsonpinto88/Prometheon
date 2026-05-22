@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import Card from '../../../shared/ui/Card'
 import Badge from '../../../shared/ui/Badge'
 import Button from '../../../shared/ui/Button'
@@ -14,6 +15,7 @@ interface TextCardProps {
 }
 
 const TextCard = ({
+  id,
   title,
   author,
   realm,
@@ -22,6 +24,7 @@ const TextCard = ({
   difficulty,
   completed = false,
 }: TextCardProps) => {
+  const navigate = useNavigate()
   const difficultyColors = {
     Beginner: 'success',
     Intermediate: 'warning',
@@ -50,7 +53,7 @@ const TextCard = ({
         <span className="text-xs text-gray-500">{pages} pages</span>
       </div>
 
-      <Button variant="primary" size="sm" className="w-full">
+      <Button variant="primary" size="sm" className="w-full" onClick={() => navigate(`/sacred-texts/${id}`)}>
         {completed ? 'Review' : 'Start Reading'}
       </Button>
     </Card>

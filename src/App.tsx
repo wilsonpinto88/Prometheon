@@ -6,7 +6,9 @@ import ErrorBoundary from './shared/components/ErrorBoundary'
 const WelcomePage = lazy(() => import('./pages/WelcomePage'))
 const DashboardPage = lazy(() => import('./pages/DashboardPage'))
 const SacredTextsPage = lazy(() => import('./pages/SacredTextsPage'))
+const SacredTextDetailPage = lazy(() => import('./pages/SacredTextDetailPage'))
 const TasksPage = lazy(() => import('./pages/TasksPage'))
+const TaskDetailPage = lazy(() => import('./pages/TaskDetailPage'))
 
 const NotFoundPage = () => (
   <div className="min-h-[60vh] flex items-center justify-center">
@@ -31,7 +33,9 @@ function App() {
               <Route path="/" element={<WelcomePage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/sacred-texts" element={<SacredTextsPage />} />
+              <Route path="/sacred-texts/:id" element={<SacredTextDetailPage />} />
               <Route path="/tasks" element={<TasksPage />} />
+              <Route path="/tasks/:id" element={<TaskDetailPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>

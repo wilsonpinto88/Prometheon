@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import Card from '../../../shared/ui/Card'
 import Badge from '../../../shared/ui/Badge'
 import Button from '../../../shared/ui/Button'
@@ -13,6 +14,7 @@ interface TaskCardProps {
 }
 
 const TaskCard = ({
+  id,
   title,
   description,
   difficulty,
@@ -20,6 +22,7 @@ const TaskCard = ({
   points,
   completed = false,
 }: TaskCardProps) => {
+  const navigate = useNavigate()
   const difficultyColors = {
     Easy: 'success',
     Medium: 'warning',
@@ -43,7 +46,7 @@ const TaskCard = ({
         <span className="text-xs text-gray-500">+{points} pts</span>
       </div>
 
-      <Button variant="primary" size="sm" className="w-full">
+      <Button variant="primary" size="sm" className="w-full" onClick={() => navigate(`/tasks/${id}`)}>
         {completed ? 'Review' : 'Start Task'}
       </Button>
     </Card>
