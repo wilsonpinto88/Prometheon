@@ -29,13 +29,14 @@ const SearchForm = ({ onSearch, placeholder = 'Search...' }: SearchFormProps) =>
     <form onSubmit={(e) => e.preventDefault()}>
       <Input
         placeholder={placeholder}
+        aria-label="Search"
         {...register('query', {
           validate: (val) =>
             val === '' || val.length >= 2 || 'Enter at least 2 characters',
         })}
       />
       {errors.query && (
-        <p className="text-red-400 text-sm mt-1">{errors.query.message}</p>
+        <p role="alert" className="text-red-400 text-sm mt-1">{errors.query.message}</p>
       )}
     </form>
   )

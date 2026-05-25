@@ -8,7 +8,7 @@ interface ErrorStateProps {
 }
 
 const ErrorState = ({ message, backTo, onRetry }: ErrorStateProps) => (
-  <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
+  <div role="alert" className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
     <div className="text-4xl">⚠️</div>
     <p className="text-red-400 text-lg text-center max-w-sm">{message}</p>
     <div className="flex gap-3">

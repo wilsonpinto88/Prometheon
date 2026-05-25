@@ -34,7 +34,7 @@ const TasksPage = () => {
       </div>
 
       {error && (
-        <div className="mb-4 flex items-center justify-between bg-red-900/40 border border-red-700 text-red-300 text-sm px-4 py-3 rounded-lg">
+        <div role="alert" className="mb-4 flex items-center justify-between bg-red-900/40 border border-red-700 text-red-300 text-sm px-4 py-3 rounded-lg">
           <span>{error}</span>
           <button onClick={clearError} className="text-red-400 hover:text-red-200 ml-4">✕</button>
         </div>

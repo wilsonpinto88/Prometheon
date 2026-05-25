@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react'
+import { InputHTMLAttributes, useId } from 'react'
 import clsx from 'clsx'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -6,15 +6,19 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string
 }
 
-const Input = ({ label, error, className = '', ...props }: InputProps) => {
+const Input = ({ label, error, id: externalId, className = '', ...props }: InputProps) => {
+  const generatedId = useId()
+  const inputId = externalId ?? generatedId
+
   return (
     <div className="w-full">
       {label && (
-        <label className="block text-sm font-medium text-gray-300 mb-1.5">
+        <label htmlFor={inputId} className="block text-sm font-medium text-gray-300 mb-1.5">
           {label}
         </label>
       )}
       <input
+        id={inputId}
         className={clsx(
           'w-full bg-dark-surface border border-dark-border rounded-lg px-4 py-2',
           'text-white placeholder-gray-500',

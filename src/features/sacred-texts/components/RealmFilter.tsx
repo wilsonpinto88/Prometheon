@@ -19,7 +19,7 @@ const realms = [
 
 const RealmFilter = ({ selectedRealm, onRealmChange }: RealmFilterProps) => {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div role="group" aria-label="Filter by realm" className="flex flex-wrap gap-2">
       {realms.map((realm) => {
         const isSelected =
           selectedRealm === realm.id || (realm.id === 'all' && selectedRealm === null)
@@ -27,6 +27,7 @@ const RealmFilter = ({ selectedRealm, onRealmChange }: RealmFilterProps) => {
           <button
             key={realm.id}
             onClick={() => onRealmChange(realm.id === 'all' ? null : realm.id)}
+            aria-pressed={isSelected}
             className={clsx(
               'px-4 py-2 rounded-lg transition-colors font-medium',
               isSelected
