@@ -1,5 +1,7 @@
 import { ReactNode } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ThemeProvider } from '../shared/contexts/ThemeContext'
+import { AuthProvider } from '../shared/contexts/AuthContext'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,7 +19,11 @@ interface ProvidersProps {
 const Providers = ({ children }: ProvidersProps) => {
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
+      <AuthProvider>
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
+      </AuthProvider>
     </QueryClientProvider>
   )
 }
