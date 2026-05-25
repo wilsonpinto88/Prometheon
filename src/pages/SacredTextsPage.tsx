@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import RealmFilter from '../features/sacred-texts/components/RealmFilter'
 import TextCard from '../features/sacred-texts/components/TextCard'
 import { mockTexts } from '../data/mockTexts'
@@ -13,6 +13,12 @@ const SacredTextsPage = () => {
   )
   const [searchQuery, setSearchQuery] = useState('')
   const debouncedSearch = useDebounce(searchQuery, 300)
+
+  const handleSearch = useCallback((q: string) => setSearchQuery(q), [])
+  const handleRealmChange = useCallback(
+    (realm: string | null) => setSelectedRealm(realm),
+    [setSelectedRealm]
+  )
 
   const filteredTexts = useMemo(() => {
     return mockTexts.filter((text) => {
@@ -40,14 +46,14 @@ const SacredTextsPage = () => {
       <div className="mb-4">
         <SearchForm
           placeholder="Search by title or author..."
-          onSearch={setSearchQuery}
+          onSearch={handleSearch}
         />
       </div>
 
       <div className="mb-6">
         <RealmFilter
           selectedRealm={selectedRealm}
-          onRealmChange={setSelectedRealm}
+          onRealmChange={handleRealmChange}
         />
       </div>
 

@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
 import Input from '../ui/Input'
@@ -40,4 +41,4 @@ const SearchForm = ({ onSearch, placeholder = 'Search...' }: SearchFormProps) =>
   )
 }
 
-export default SearchForm
+export default memo(SearchForm)

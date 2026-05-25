@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Card from '../../../shared/ui/Card'
 import Badge from '../../../shared/ui/Badge'
@@ -60,4 +61,4 @@ const TextCard = ({
   )
 }
 
-export default TextCard
+export default memo(TextCard)

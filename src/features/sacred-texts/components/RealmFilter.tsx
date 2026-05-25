@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import clsx from 'clsx'
 
 interface RealmFilterProps {
@@ -41,4 +42,4 @@ const RealmFilter = ({ selectedRealm, onRealmChange }: RealmFilterProps) => {
   )
 }
 
-export default RealmFilter
+export default memo(RealmFilter)

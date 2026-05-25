@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Card from '../../../shared/ui/Card'
 import Badge from '../../../shared/ui/Badge'
@@ -64,4 +65,4 @@ const TaskCard = ({ id, title, description, difficulty, type, points }: TaskCard
   )
 }
 
-export default TaskCard
+export default memo(TaskCard)
