@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from './shared/layout/Layout'
 import ErrorBoundary from './shared/components/ErrorBoundary'
+import ProtectedRoute from './shared/components/ProtectedRoute'
 
 const WelcomePage = lazy(() => import('./pages/WelcomePage'))
 const DashboardPage = lazy(() => import('./pages/DashboardPage'))
@@ -31,11 +32,11 @@ function App() {
           }>
             <Routes>
               <Route path="/" element={<WelcomePage />} />
-              <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/sacred-texts" element={<SacredTextsPage />} />
-              <Route path="/sacred-texts/:id" element={<SacredTextDetailPage />} />
-              <Route path="/tasks" element={<TasksPage />} />
-              <Route path="/tasks/:id" element={<TaskDetailPage />} />
+              <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+              <Route path="/sacred-texts" element={<ProtectedRoute><SacredTextsPage /></ProtectedRoute>} />
+              <Route path="/sacred-texts/:id" element={<ProtectedRoute><SacredTextDetailPage /></ProtectedRoute>} />
+              <Route path="/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
+              <Route path="/tasks/:id" element={<ProtectedRoute><TaskDetailPage /></ProtectedRoute>} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>
