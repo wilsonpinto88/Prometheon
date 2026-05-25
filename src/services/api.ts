@@ -6,6 +6,12 @@ import { mockTasks } from '../data/mockTasks'
 const delay = (ms: number) => new Promise<void>((res) => setTimeout(res, ms))
 
 export const api = {
+  async updateTaskComplete(id: string, _completed: boolean): Promise<void> {
+    await delay(600)
+    if (Math.random() < 0.2) throw new Error('Server error. Change reverted.')
+    void id
+  },
+
   async fetchTexts(): Promise<SacredText[]> {
     await delay(400)
     return mockTexts

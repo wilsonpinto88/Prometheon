@@ -12,8 +12,9 @@ const TaskDetailPage = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const { tasks, toggleComplete } = useProgressStore()
+  const { tasks, pendingId, error: storeError, clearError, toggleComplete } = useProgressStore()
   const completed = tasks.find((t) => t.id === id)?.completed ?? false
+  const isPending = pendingId === id
 
   useEffect(() => {
     if (!id) return
@@ -71,16 +72,24 @@ const TaskDetailPage = () => {
           <span className="text-sm text-gray-500 flex items-center">+{task.points} pts</span>
         </div>
 
+        {storeError && (
+          <div className="mb-4 flex items-center justify-between bg-red-900/40 border border-red-700 text-red-300 text-sm px-4 py-3 rounded-lg">
+            <span>{storeError}</span>
+            <button onClick={clearError} className="text-red-400 hover:text-red-200 ml-4">✕</button>
+          </div>
+        )}
+
         <div className="flex gap-3">
           <Button variant="primary" className="flex-1">
             {completed ? 'Review Task' : 'Start Task'}
           </Button>
           <Button
             variant={completed ? 'outline' : 'secondary'}
-            onClick={() => id && toggleComplete(id)}
+            onClick={() => id && !isPending && toggleComplete(id)}
+            disabled={isPending}
             title={completed ? 'Mark incomplete' : 'Mark complete'}
           >
-            {completed ? '↩ Undo' : '✓ Complete'}
+            {isPending ? '…' : completed ? '↩ Undo' : '✓ Complete'}
           </Button>
         </div>
       </div>

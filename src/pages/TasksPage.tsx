@@ -10,7 +10,7 @@ interface Filters {
 }
 
 const TasksPage = () => {
-  const { tasks } = useProgressStore()
+  const { tasks, error, clearError } = useProgressStore()
   const [filters, setFilters] = useState<Filters>({ search: '', difficulty: '', type: '' })
 
   const filteredTasks = useMemo(() => {
@@ -32,6 +32,13 @@ const TasksPage = () => {
           Tasks & Challenges
         </h1>
       </div>
+
+      {error && (
+        <div className="mb-4 flex items-center justify-between bg-red-900/40 border border-red-700 text-red-300 text-sm px-4 py-3 rounded-lg">
+          <span>{error}</span>
+          <button onClick={clearError} className="text-red-400 hover:text-red-200 ml-4">✕</button>
+        </div>
+      )}
 
       {/* Search and Filters */}
       <div className="mb-6">

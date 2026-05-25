@@ -15,9 +15,10 @@ interface TaskCardProps {
 
 const TaskCard = ({ id, title, description, difficulty, type, points }: TaskCardProps) => {
   const navigate = useNavigate()
-  const { tasks, toggleComplete } = useProgressStore()
+  const { tasks, pendingId, toggleComplete } = useProgressStore()
   const task = tasks.find((t) => t.id === id)
   const completed = task?.completed ?? false
+  const isPending = pendingId === id
 
   const difficultyColors = {
     Easy: 'success',
@@ -52,10 +53,11 @@ const TaskCard = ({ id, title, description, difficulty, type, points }: TaskCard
         <Button
           variant={completed ? 'outline' : 'secondary'}
           size="sm"
-          onClick={() => toggleComplete(id)}
+          onClick={() => !isPending && toggleComplete(id)}
           title={completed ? 'Mark incomplete' : 'Mark complete'}
+          disabled={isPending}
         >
-          {completed ? '↩' : '✓'}
+          {isPending ? '…' : completed ? '↩' : '✓'}
         </Button>
       </div>
     </Card>
