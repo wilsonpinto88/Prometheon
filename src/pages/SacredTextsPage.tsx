@@ -4,7 +4,7 @@ import TextCard from '../features/sacred-texts/components/TextCard'
 import { mockTexts } from '../data/mockTexts'
 import useLocalStorage from '../shared/hooks/useLocalStorage'
 import useDebounce from '../shared/hooks/useDebounce'
-import Input from '../shared/ui/Input'
+import SearchForm from '../shared/components/SearchForm'
 
 const SacredTextsPage = () => {
   const [selectedRealm, setSelectedRealm] = useLocalStorage<string | null>(
@@ -38,10 +38,9 @@ const SacredTextsPage = () => {
       </div>
 
       <div className="mb-4">
-        <Input
+        <SearchForm
           placeholder="Search by title or author..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onSearch={setSearchQuery}
         />
       </div>
 

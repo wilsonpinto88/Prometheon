@@ -3,23 +3,25 @@ import TaskFilters from '../features/tasks/components/TaskFilters'
 import TaskCard from '../features/tasks/components/TaskCard'
 import { mockTasks } from '../data/mockTasks'
 
+interface Filters {
+  search: string
+  difficulty: string
+  type: string
+}
+
 const TasksPage = () => {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [difficultyFilter, setDifficultyFilter] = useState('')
-  const [typeFilter, setTypeFilter] = useState('')
+  const [filters, setFilters] = useState<Filters>({ search: '', difficulty: '', type: '' })
 
   const filteredTasks = useMemo(() => {
     return mockTasks.filter((task) => {
       const matchesSearch =
-        task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        task.description.toLowerCase().includes(searchQuery.toLowerCase())
-      
-      const matchesDifficulty = !difficultyFilter || task.difficulty === difficultyFilter
-      const matchesType = !typeFilter || task.type === typeFilter
-
+        task.title.toLowerCase().includes(filters.search.toLowerCase()) ||
+        task.description.toLowerCase().includes(filters.search.toLowerCase())
+      const matchesDifficulty = !filters.difficulty || task.difficulty === filters.difficulty
+      const matchesType = !filters.type || task.type === filters.type
       return matchesSearch && matchesDifficulty && matchesType
     })
-  }, [searchQuery, difficultyFilter, typeFilter])
+  }, [filters])
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -32,14 +34,7 @@ const TasksPage = () => {
 
       {/* Search and Filters */}
       <div className="mb-6">
-        <TaskFilters
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          difficultyFilter={difficultyFilter}
-          onDifficultyChange={setDifficultyFilter}
-          typeFilter={typeFilter}
-          onTypeChange={setTypeFilter}
-        />
+        <TaskFilters onFiltersChange={setFilters} />
       </div>
 
       {/* Task Cards Grid */}

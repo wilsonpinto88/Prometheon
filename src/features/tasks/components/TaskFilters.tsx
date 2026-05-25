@@ -1,34 +1,49 @@
+import { useForm } from 'react-hook-form'
+import { useEffect } from 'react'
 import Input from '../../../shared/ui/Input'
 
-interface TaskFiltersProps {
-  searchQuery: string
-  onSearchChange: (query: string) => void
-  difficultyFilter: string
-  onDifficultyChange: (difficulty: string) => void
-  typeFilter: string
-  onTypeChange: (type: string) => void
+interface TaskFilterValues {
+  search: string
+  difficulty: string
+  type: string
 }
 
-const TaskFilters = ({
-  searchQuery,
-  onSearchChange,
-  difficultyFilter,
-  onDifficultyChange,
-  typeFilter,
-  onTypeChange,
-}: TaskFiltersProps) => {
+interface TaskFiltersProps {
+  onFiltersChange: (filters: TaskFilterValues) => void
+}
+
+const TaskFilters = ({ onFiltersChange }: TaskFiltersProps) => {
+  const {
+    register,
+    watch,
+    formState: { errors },
+  } = useForm<TaskFilterValues>({
+    defaultValues: { search: '', difficulty: '', type: '' },
+  })
+
+  const values = watch()
+
+  useEffect(() => {
+    onFiltersChange(values)
+  }, [values.search, values.difficulty, values.type])
+
   return (
     <div className="flex flex-col sm:flex-row gap-4">
-      <Input
-        type="text"
-        placeholder="Search tasks..."
-        value={searchQuery}
-        onChange={(e) => onSearchChange(e.target.value)}
-        className="flex-1"
-      />
+      <div className="flex-1">
+        <Input
+          type="text"
+          placeholder="Search tasks..."
+          {...register('search', {
+            validate: (val) =>
+              val === '' || val.length >= 2 || 'Enter at least 2 characters',
+          })}
+        />
+        {errors.search && (
+          <p className="text-red-400 text-sm mt-1">{errors.search.message}</p>
+        )}
+      </div>
       <select
-        value={difficultyFilter}
-        onChange={(e) => onDifficultyChange(e.target.value)}
+        {...register('difficulty')}
         className="bg-dark-surface border border-dark-border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary-500 min-w-[140px]"
       >
         <option value="">All Difficulties</option>
@@ -37,8 +52,7 @@ const TaskFilters = ({
         <option value="Hard">Hard</option>
       </select>
       <select
-        value={typeFilter}
-        onChange={(e) => onTypeChange(e.target.value)}
+        {...register('type')}
         className="bg-dark-surface border border-dark-border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary-500 min-w-[140px]"
       >
         <option value="">All Types</option>
