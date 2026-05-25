@@ -6,6 +6,7 @@ import { errorMiddleware } from './middleware/error.js'
 import authRoutes from './routes/auth.js'
 import textsRoutes from './routes/texts.js'
 import tasksRoutes from './routes/tasks.js'
+import progressRoutes from './routes/progress.js'
 
 const app = new Hono()
 
@@ -17,6 +18,7 @@ app.get('/health', (c) => c.json({ ok: true, ts: new Date().toISOString() }))
 app.route('/auth', authRoutes)
 app.route('/api/texts', textsRoutes)
 app.route('/api/tasks', tasksRoutes)
+app.route('/api/progress', progressRoutes)
 
 app.onError(errorMiddleware)
 
