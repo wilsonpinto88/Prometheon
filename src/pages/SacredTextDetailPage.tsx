@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import type { SacredText } from '../shared/types/sacredText'
 import Badge from '../shared/ui/Badge'
 import Button from '../shared/ui/Button'
+import ErrorState from '../shared/components/ErrorState'
 import { api } from '../services/api'
 
 const SacredTextDetailPage = () => {
@@ -10,6 +11,7 @@ const SacredTextDetailPage = () => {
   const [text, setText] = useState<SacredText | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [retryKey, setRetryKey] = useState(0)
 
   useEffect(() => {
     if (!id) return
@@ -20,7 +22,7 @@ const SacredTextDetailPage = () => {
       .then(setText)
       .catch((err: Error) => setError(err.message))
       .finally(() => setLoading(false))
-  }, [id])
+  }, [id, retryKey])
 
   const difficultyColors = {
     Beginner: 'success',
@@ -38,12 +40,11 @@ const SacredTextDetailPage = () => {
 
   if (error || !text) {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
-        <p className="text-red-400 text-lg">{error ?? 'Not found.'}</p>
-        <Link to="/sacred-texts">
-          <Button variant="primary" size="sm">Back to Sacred Texts</Button>
-        </Link>
-      </div>
+      <ErrorState
+        message={error ?? 'Sacred text not found.'}
+        onRetry={() => setRetryKey((k) => k + 1)}
+        backTo={{ href: '/sacred-texts', label: 'Back to Sacred Texts' }}
+      />
     )
   }
 

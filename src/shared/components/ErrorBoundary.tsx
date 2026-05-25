@@ -3,6 +3,7 @@ import { Component, ReactNode, ErrorInfo } from 'react'
 interface Props {
   children: ReactNode
   fallback?: ReactNode
+  onReset?: () => void
 }
 
 interface State {
@@ -21,6 +22,11 @@ class ErrorBoundary extends Component<Props, State> {
     console.error('[ErrorBoundary]', error, info.componentStack)
   }
 
+  handleReset = () => {
+    this.props.onReset?.()
+    this.setState({ hasError: false, error: null })
+  }
+
   render() {
     if (this.state.hasError) {
       if (this.props.fallback) return this.props.fallback
@@ -30,13 +36,23 @@ class ErrorBoundary extends Component<Props, State> {
           <div className="bg-dark-card border border-red-500/30 rounded-lg p-8 max-w-lg w-full text-center">
             <div className="text-4xl mb-4">⚠️</div>
             <h2 className="text-xl font-semibold text-white mb-2">Something went wrong</h2>
-            <p className="text-gray-400 text-sm mb-6">{this.state.error?.message}</p>
-            <button
-              onClick={() => this.setState({ hasError: false, error: null })}
-              className="bg-primary-500 text-white px-6 py-2 rounded-lg hover:bg-primary-600 transition-colors"
-            >
-              Try again
-            </button>
+            <p className="text-gray-400 text-sm mb-6">
+              {this.state.error?.message ?? 'An unexpected error occurred.'}
+            </p>
+            <div className="flex gap-3 justify-center">
+              <button
+                onClick={this.handleReset}
+                className="bg-primary-500 text-white px-6 py-2 rounded-lg hover:bg-primary-600 transition-colors"
+              >
+                Try again
+              </button>
+              <button
+                onClick={() => window.location.reload()}
+                className="bg-dark-surface border border-dark-border text-gray-300 px-6 py-2 rounded-lg hover:border-primary-500 transition-colors"
+              >
+                Reload page
+              </button>
+            </div>
           </div>
         </div>
       )

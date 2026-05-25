@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import type { Task } from '../shared/types/task'
 import Badge from '../shared/ui/Badge'
 import Button from '../shared/ui/Button'
+import ErrorState from '../shared/components/ErrorState'
 import { api } from '../services/api'
 import { useProgressStore } from '../shared/store/progressStore'
 
@@ -11,6 +12,7 @@ const TaskDetailPage = () => {
   const [task, setTask] = useState<Task | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [retryKey, setRetryKey] = useState(0)
 
   const { tasks, pendingId, error: storeError, clearError, toggleComplete } = useProgressStore()
   const completed = tasks.find((t) => t.id === id)?.completed ?? false
@@ -25,7 +27,7 @@ const TaskDetailPage = () => {
       .then(setTask)
       .catch((err: Error) => setError(err.message))
       .finally(() => setLoading(false))
-  }, [id])
+  }, [id, retryKey])
 
   const difficultyColors = {
     Easy: 'success',
@@ -43,12 +45,11 @@ const TaskDetailPage = () => {
 
   if (error || !task) {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
-        <p className="text-red-400 text-lg">{error ?? 'Not found.'}</p>
-        <Link to="/tasks">
-          <Button variant="primary" size="sm">Back to Tasks</Button>
-        </Link>
-      </div>
+      <ErrorState
+        message={error ?? 'Task not found.'}
+        onRetry={() => setRetryKey((k) => k + 1)}
+        backTo={{ href: '/tasks', label: 'Back to Tasks' }}
+      />
     )
   }
 
