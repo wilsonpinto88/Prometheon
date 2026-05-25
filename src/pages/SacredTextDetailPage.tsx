@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { mockTexts } from '../data/mockTexts'
 import type { SacredText } from '../shared/types/sacredText'
 import Badge from '../shared/ui/Badge'
 import Button from '../shared/ui/Button'
+import { api } from '../services/api'
 
 const SacredTextDetailPage = () => {
   const { id } = useParams<{ id: string }>()
@@ -12,21 +12,14 @@ const SacredTextDetailPage = () => {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    if (!id) return
     setLoading(true)
     setError(null)
 
-    // Simulate async fetch
-    const timer = setTimeout(() => {
-      const found = mockTexts.find((t) => t.id === id)
-      if (found) {
-        setText(found)
-      } else {
-        setError('Sacred text not found.')
-      }
-      setLoading(false)
-    }, 400)
-
-    return () => clearTimeout(timer)
+    api.fetchTextById(id)
+      .then(setText)
+      .catch((err: Error) => setError(err.message))
+      .finally(() => setLoading(false))
   }, [id])
 
   const difficultyColors = {

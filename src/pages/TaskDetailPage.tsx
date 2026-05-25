@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { mockTasks } from '../data/mockTasks'
 import type { Task } from '../shared/types/task'
 import Badge from '../shared/ui/Badge'
 import Button from '../shared/ui/Button'
+import { api } from '../services/api'
+import { useProgressStore } from '../shared/store/progressStore'
 
 const TaskDetailPage = () => {
   const { id } = useParams<{ id: string }>()
@@ -11,21 +12,18 @@ const TaskDetailPage = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  const { tasks, toggleComplete } = useProgressStore()
+  const completed = tasks.find((t) => t.id === id)?.completed ?? false
+
   useEffect(() => {
+    if (!id) return
     setLoading(true)
     setError(null)
 
-    const timer = setTimeout(() => {
-      const found = mockTasks.find((t) => t.id === id)
-      if (found) {
-        setTask(found)
-      } else {
-        setError('Task not found.')
-      }
-      setLoading(false)
-    }, 400)
-
-    return () => clearTimeout(timer)
+    api.fetchTaskById(id)
+      .then(setTask)
+      .catch((err: Error) => setError(err.message))
+      .finally(() => setLoading(false))
   }, [id])
 
   const difficultyColors = {
@@ -62,7 +60,7 @@ const TaskDetailPage = () => {
       <div className="bg-dark-800 border border-dark-700 rounded-xl p-8">
         <div className="flex items-start justify-between mb-4">
           <h1 className="text-2xl font-bold text-white flex-1">{task.title}</h1>
-          {task.completed && <Badge variant="success">✓ Done</Badge>}
+          {completed && <Badge variant="success">✓ Done</Badge>}
         </div>
 
         <p className="text-gray-300 mb-6">{task.description}</p>
@@ -73,9 +71,18 @@ const TaskDetailPage = () => {
           <span className="text-sm text-gray-500 flex items-center">+{task.points} pts</span>
         </div>
 
-        <Button variant="primary" className="w-full">
-          {task.completed ? 'Review Task' : 'Start Task'}
-        </Button>
+        <div className="flex gap-3">
+          <Button variant="primary" className="flex-1">
+            {completed ? 'Review Task' : 'Start Task'}
+          </Button>
+          <Button
+            variant={completed ? 'outline' : 'secondary'}
+            onClick={() => id && toggleComplete(id)}
+            title={completed ? 'Mark incomplete' : 'Mark complete'}
+          >
+            {completed ? '↩ Undo' : '✓ Complete'}
+          </Button>
+        </div>
       </div>
     </div>
   )
