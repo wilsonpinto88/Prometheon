@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  name          String
+  passwordHash  String
+  createdAt     DateTime       @default(now())
+  aiKeys        AIKey[]
+  taskProgress  TaskProgress[]
+  textProgress  TextProgress[]
+  activities    Activity[]
+  conversations Conversation[]
+}
+
+model AIKey {
+  id           String  @id @default(cuid())
+  userId       String
+  provider     String
+  encryptedKey String
+  preferred    Boolean @default(false)
+  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, provider])
+}
+
+model SacredText {
+  id           String         @id @default(cuid())
+  title        String
+  author       String
+  realm        String
+  description  String
+  difficulty   String
+  chapters     Int
+  coverEmoji   String         @default("📚")
+  textProgress TextProgress[]
+}
+
+model Task {
+  id           String         @id @default(cuid())
+  title        String
+  description  String
+  realm        String
+  difficulty   String
+  type         String
+  points       Int            @default(10)
+  taskProgress TaskProgress[]
+}
+
+model TaskProgress {
+  id           String    @id @default(cuid())
+  userId       String
+  taskId       String
+  status       String    @default("not_started")
+  completedAt  DateTime?
+  pointsEarned Int       @default(0)
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task         Task      @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, taskId])
+}
+
+model TextProgress {
+  id          String     @id @default(cuid())
+  userId      String
+  textId      String
+  status      String     @default("not_started")
+  progress    Int        @default(0)
+  completedAt DateTime?
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  text        SacredText @relation(fields: [textId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, textId])
+}
+
+model Activity {
+  id           String   @id @default(cuid())
+  userId       String
+  type         String
+  entityId     String
+  entityName   String
+  pointsEarned Int      @default(0)
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Conversation {
+  id        String    @id @default(cuid())
+  userId    String
+  title     String?
+  createdAt DateTime  @default(now())
+  messages  Message[]
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  role           String
+  content        String
+  createdAt      DateTime     @default(now())
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+}
