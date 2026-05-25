@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import TaskFilters from '../features/tasks/components/TaskFilters'
 import TaskCard from '../features/tasks/components/TaskCard'
-import { mockTasks } from '../data/mockTasks'
+import { useProgressStore } from '../shared/store/progressStore'
 
 interface Filters {
   search: string
@@ -10,10 +10,11 @@ interface Filters {
 }
 
 const TasksPage = () => {
+  const { tasks } = useProgressStore()
   const [filters, setFilters] = useState<Filters>({ search: '', difficulty: '', type: '' })
 
   const filteredTasks = useMemo(() => {
-    return mockTasks.filter((task) => {
+    return tasks.filter((task) => {
       const matchesSearch =
         task.title.toLowerCase().includes(filters.search.toLowerCase()) ||
         task.description.toLowerCase().includes(filters.search.toLowerCase())
@@ -21,7 +22,7 @@ const TasksPage = () => {
       const matchesType = !filters.type || task.type === filters.type
       return matchesSearch && matchesDifficulty && matchesType
     })
-  }, [filters])
+  }, [filters, tasks])
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -49,7 +50,6 @@ const TasksPage = () => {
               difficulty={task.difficulty}
               type={task.type}
               points={task.points}
-              completed={task.completed}
             />
           ))
         ) : (

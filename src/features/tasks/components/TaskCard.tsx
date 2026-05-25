@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import Card from '../../../shared/ui/Card'
 import Badge from '../../../shared/ui/Badge'
 import Button from '../../../shared/ui/Button'
+import { useProgressStore } from '../../../shared/store/progressStore'
 
 interface TaskCardProps {
   id: string
@@ -10,19 +11,14 @@ interface TaskCardProps {
   difficulty: 'Easy' | 'Medium' | 'Hard'
   type: 'Coding' | 'System Design' | 'Problem Solving' | 'Research'
   points: number
-  completed?: boolean
 }
 
-const TaskCard = ({
-  id,
-  title,
-  description,
-  difficulty,
-  type,
-  points,
-  completed = false,
-}: TaskCardProps) => {
+const TaskCard = ({ id, title, description, difficulty, type, points }: TaskCardProps) => {
   const navigate = useNavigate()
+  const { tasks, toggleComplete } = useProgressStore()
+  const task = tasks.find((t) => t.id === id)
+  const completed = task?.completed ?? false
+
   const difficultyColors = {
     Easy: 'success',
     Medium: 'warning',
@@ -33,9 +29,7 @@ const TaskCard = ({
     <Card className="p-6 hover:border-primary-500 transition-colors">
       <div className="flex items-start justify-between mb-3">
         <h3 className="text-lg font-semibold text-white flex-1">{title}</h3>
-        {completed && (
-          <Badge variant="success" size="sm">✓</Badge>
-        )}
+        {completed && <Badge variant="success" size="sm">✓</Badge>}
       </div>
 
       <p className="text-gray-300 text-sm mb-4 line-clamp-2">{description}</p>
@@ -46,9 +40,24 @@ const TaskCard = ({
         <span className="text-xs text-gray-500">+{points} pts</span>
       </div>
 
-      <Button variant="primary" size="sm" className="w-full" onClick={() => navigate(`/tasks/${id}`)}>
-        {completed ? 'Review' : 'Start Task'}
-      </Button>
+      <div className="flex gap-2">
+        <Button
+          variant="primary"
+          size="sm"
+          className="flex-1"
+          onClick={() => navigate(`/tasks/${id}`)}
+        >
+          {completed ? 'Review' : 'Start Task'}
+        </Button>
+        <Button
+          variant={completed ? 'outline' : 'secondary'}
+          size="sm"
+          onClick={() => toggleComplete(id)}
+          title={completed ? 'Mark incomplete' : 'Mark complete'}
+        >
+          {completed ? '↩' : '✓'}
+        </Button>
+      </div>
     </Card>
   )
 }

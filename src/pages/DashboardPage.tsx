@@ -2,8 +2,13 @@ import RealmProgress from '../features/dashboard/components/RealmProgress'
 import RecentActivity from '../features/dashboard/components/RecentActivity'
 import QuickActions from '../features/dashboard/components/QuickActions'
 import Card from '../shared/ui/Card'
+import { useProgressStore } from '../shared/store/progressStore'
+import { useUserStore } from '../shared/store/userStore'
 
 const DashboardPage = () => {
+  const { completedCount, totalPoints, tasks } = useProgressStore()
+  const { name } = useUserStore()
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
@@ -11,17 +16,17 @@ const DashboardPage = () => {
           <span>📊</span>
           Dashboard
         </h1>
+        <p className="text-gray-400 mt-1">Welcome back, {name}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {/* Stats Cards */}
         <Card className="p-6">
           <h3 className="text-gray-400 text-sm mb-2">Books Read</h3>
           <p className="text-3xl font-bold text-white">7/10</p>
         </Card>
         <Card className="p-6">
           <h3 className="text-gray-400 text-sm mb-2">Tasks Completed</h3>
-          <p className="text-3xl font-bold text-white">42</p>
+          <p className="text-3xl font-bold text-white">{completedCount()}/{tasks.length}</p>
         </Card>
         <Card className="p-6">
           <h3 className="text-gray-400 text-sm mb-2">Current Realm</h3>
@@ -31,8 +36,7 @@ const DashboardPage = () => {
         </Card>
         <Card className="p-6">
           <h3 className="text-gray-400 text-sm mb-2">Total Points</h3>
-          <p className="text-3xl font-bold text-white">12,450</p>
-          <p className="text-sm text-green-400 mt-1">↑ 10% this week</p>
+          <p className="text-3xl font-bold text-white">{totalPoints().toLocaleString()}</p>
         </Card>
       </div>
 
