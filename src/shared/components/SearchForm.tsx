@@ -17,7 +17,7 @@ const SearchForm = ({ onSearch, placeholder = 'Search...' }: SearchFormProps) =>
     register,
     watch,
     formState: { errors },
-  } = useForm<SearchFormValues>({ defaultValues: { query: '' } })
+  } = useForm<SearchFormValues>({ defaultValues: { query: '' }, mode: 'onChange' })
 
   const query = watch('query')
 
