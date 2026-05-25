@@ -1,0 +1,32 @@
+{
+  "name": "@prometheon/backend",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsup src/index.ts --format esm --dts",
+    "start": "node dist/index.js",
+    "db:migrate": "prisma migrate dev --schema src/db/prisma/schema.prisma",
+    "db:generate": "prisma generate --schema src/db/prisma/schema.prisma",
+    "db:seed": "tsx src/db/seed.ts",
+    "db:studio": "prisma studio --schema src/db/prisma/schema.prisma"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.0",
+    "@hono/zod-validator": "^0.4.1",
+    "@prisma/client": "^5.7.0",
+    "bcryptjs": "^2.4.3",
+    "hono": "^4.6.0",
+    "jsonwebtoken": "^9.0.2",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^20.10.0",
+    "prisma": "^5.7.0",
+    "tsup": "^8.0.1",
+    "tsx": "^4.7.0",
+    "typescript": "^5.2.2"
+  }
+}
