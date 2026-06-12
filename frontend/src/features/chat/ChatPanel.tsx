@@ -68,7 +68,7 @@ export default function ChatPanel() {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-3 py-3">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-3">
         {messages.length === 0 && (
           <p className="text-gray-500 text-xs text-center mt-8">
             Ask me anything about your current study material.
