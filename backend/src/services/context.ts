@@ -32,9 +32,12 @@ export async function buildSystemPrompt(
       currentEntityContext = `\nCurrently viewing task: "${task.title}" (${task.difficulty}, ${task.type}, ${task.points} pts)\n${task.description}`
     }
   } else if (contextEntityId && contextEntityType === 'text') {
-    const text = await prisma.sacredText.findUnique({ where: { id: contextEntityId } })
+    const text = await prisma.sacredText.findUnique({
+      where: { id: contextEntityId },
+      include: { _count: { select: { chapterList: true } } },
+    })
     if (text) {
-      currentEntityContext = `\nCurrently viewing book: "${text.title}" by ${text.author} (${text.difficulty}, ${text.chapters} chapters)\n${text.description}`
+      currentEntityContext = `\nCurrently viewing book: "${text.title}" by ${text.author} (${text.difficulty}, ${text._count.chapterList} chapters)\n${text.description}`
     }
   }
 
