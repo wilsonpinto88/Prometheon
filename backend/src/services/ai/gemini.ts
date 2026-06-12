@@ -10,7 +10,7 @@ export class GeminiProvider implements AIProvider {
 
   async *chat(messages: ChatMessage[], systemPrompt: string): AsyncGenerator<string> {
     const model = this.client.getGenerativeModel({
-      model: 'gemini-1.5-pro',
+      model: 'gemini-2.5-flash',
       systemInstruction: systemPrompt,
     })
 
