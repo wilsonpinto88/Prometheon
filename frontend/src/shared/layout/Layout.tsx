@@ -10,7 +10,7 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const { openChat } = useChatStore()
+  const { isOpen, openChat, closeChat } = useChatStore()
   const { isAuthenticated } = useAuthContext()
 
   return (
@@ -27,12 +27,13 @@ const Layout = ({ children }: LayoutProps) => {
       {isAuthenticated && (
         <>
           <button
-            onClick={() => openChat()}
+            onClick={() => (isOpen ? closeChat() : openChat())}
             className="fixed bottom-4 right-4 z-40 w-12 h-12 bg-orange-500 hover:bg-orange-400 text-white rounded-full shadow-lg flex items-center justify-center text-xl transition-colors"
-            aria-label="Open AI study assistant"
+            aria-label={isOpen ? 'Close AI study assistant' : 'Open AI study assistant'}
+            aria-expanded={isOpen}
             title="AI Study Assistant"
           >
-            ⚡
+            {isOpen ? '✕' : '⚡'}
           </button>
           <ChatPanel />
         </>
