@@ -13,7 +13,8 @@ model User {
   name          String
   passwordHash  String
   createdAt     DateTime       @default(now())
-  aiKeys        AIKey[]
+  aiKeys          AIKey[]
+  chapterProgress ChapterProgress[]
   taskProgress  TaskProgress[]
   textProgress  TextProgress[]
   activities    Activity[]
@@ -38,9 +39,36 @@ model SacredText {
   realm        String
   description  String
   difficulty   String
-  chapters     Int
   coverEmoji   String         @default("📚")
+  attribution  String         @default("")
+  chapterList  Chapter[]
   textProgress TextProgress[]
+}
+
+model Chapter {
+  id            String            @id @default(cuid())
+  textId        String
+  order         Int
+  title         String
+  summary       String
+  resourceUrl   String
+  resourceLabel String
+  estMinutes    Int               @default(30)
+  text          SacredText        @relation(fields: [textId], references: [id], onDelete: Cascade)
+  progress      ChapterProgress[]
+
+  @@unique([textId, order])
+}
+
+model ChapterProgress {
+  id          String   @id @default(cuid())
+  userId      String
+  chapterId   String
+  completedAt DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chapter     Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, chapterId])
 }
 
 model Task {
