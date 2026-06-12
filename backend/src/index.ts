@@ -8,6 +8,7 @@ import textsRoutes from './routes/texts.js'
 import tasksRoutes from './routes/tasks.js'
 import progressRoutes from './routes/progress.js'
 import aiKeysRoutes from './routes/aiKeys.js'
+import chatRoutes from './routes/chat.js'
 
 const app = new Hono()
 
@@ -21,6 +22,7 @@ app.route('/api/texts', textsRoutes)
 app.route('/api/tasks', tasksRoutes)
 app.route('/api/progress', progressRoutes)
 app.route('/api/user/ai-keys', aiKeysRoutes)
+app.route('/api/chat', chatRoutes)
 
 app.onError(errorMiddleware)
 
