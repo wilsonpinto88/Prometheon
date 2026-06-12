@@ -1,44 +1,67 @@
-import { createContext, useContext, useState, ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
+import axios from 'axios'
 
 interface User {
   id: string
-  name: string
   email: string
+  name: string
 }
 
 interface AuthContextValue {
   user: User | null
   isAuthenticated: boolean
-  login: (name: string, email: string) => void
+  login: (email: string, password: string) => Promise<void>
+  register: (email: string, name: string, password: string) => Promise<void>
   logout: () => void
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
 
-const MOCK_USER: User = {
-  id: '1',
-  name: 'Prometheus',
-  email: 'prometheus@olympus.dev',
-}
-
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(MOCK_USER)
+  const [user, setUser] = useState<User | null>(null)
 
-  const login = (name: string, email: string) => {
-    setUser({ id: '1', name, email })
+  useEffect(() => {
+    const token = localStorage.getItem('auth_token')
+    const stored = localStorage.getItem('auth_user')
+    if (token && stored) {
+      try {
+        setUser(JSON.parse(stored))
+      } catch {
+        localStorage.removeItem('auth_token')
+        localStorage.removeItem('auth_user')
+      }
+    }
+  }, [])
+
+  const login = async (email: string, password: string) => {
+    const { data } = await axios.post('/auth/login', { email, password })
+    localStorage.setItem('auth_token', data.token)
+    localStorage.setItem('auth_user', JSON.stringify(data.user))
+    setUser(data.user)
   }
 
-  const logout = () => setUser(null)
+  const register = async (email: string, name: string, password: string) => {
+    const { data } = await axios.post('/auth/register', { email, name, password })
+    localStorage.setItem('auth_token', data.token)
+    localStorage.setItem('auth_user', JSON.stringify(data.user))
+    setUser(data.user)
+  }
+
+  const logout = () => {
+    localStorage.removeItem('auth_token')
+    localStorage.removeItem('auth_user')
+    setUser(null)
+  }
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   )
 }
 
-export function useAuthContext(): AuthContextValue {
+export function useAuthContext() {
   const ctx = useContext(AuthContext)
-  if (!ctx) throw new Error('useAuthContext must be used within AuthProvider')
+  if (!ctx) throw new Error('useAuthContext must be used inside AuthProvider')
   return ctx
 }
