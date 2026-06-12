@@ -37,6 +37,9 @@ const Header = () => {
             </button>
             {isAuthenticated && user ? (
               <div className="flex items-center space-x-2">
+                <Link to="/settings" className="text-gray-400 hover:text-white text-sm transition-colors">
+                  Settings
+                </Link>
                 <span className="text-sm text-gray-400 hidden md:block">{user.name}</span>
                 <button
                   onClick={logout}

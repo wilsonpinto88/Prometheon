@@ -10,6 +10,7 @@ const SacredTextsPage = lazy(() => import('./pages/SacredTextsPage'))
 const SacredTextDetailPage = lazy(() => import('./pages/SacredTextDetailPage'))
 const TasksPage = lazy(() => import('./pages/TasksPage'))
 const TaskDetailPage = lazy(() => import('./pages/TaskDetailPage'))
+const SettingsPage = lazy(() => import('./pages/SettingsPage'))
 
 const NotFoundPage = () => (
   <div className="min-h-[60vh] flex items-center justify-center">
@@ -37,6 +38,7 @@ function App() {
               <Route path="/sacred-texts/:id" element={<ProtectedRoute><SacredTextDetailPage /></ProtectedRoute>} />
               <Route path="/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
               <Route path="/tasks/:id" element={<ProtectedRoute><TaskDetailPage /></ProtectedRoute>} />
+              <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>
