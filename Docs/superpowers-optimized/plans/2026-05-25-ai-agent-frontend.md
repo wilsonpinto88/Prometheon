@@ -56,7 +56,7 @@ frontend/src/
 **Files:**
 - Create: `backend/src/services/crypto.ts`
 
-- [ ] **Step 1: Create crypto.ts**
+- [x] **Step 1: Create crypto.ts**
 
 ```typescript
 import { createCipheriv, createDecipheriv, randomBytes } from 'node:crypto'
@@ -89,7 +89,7 @@ export function decrypt(stored: string): string {
 }
 ```
 
-- [ ] **Step 2: Verify encrypt/decrypt round-trip**
+- [x] **Step 2: Verify encrypt/decrypt round-trip**
 
 Create a quick test script and run it:
 
@@ -106,7 +106,7 @@ EOF
 
 Expected: `decrypted: sk-test-key-abc123`
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add backend/src/services/crypto.ts
@@ -121,7 +121,7 @@ git commit -m "feat(backend): AES-256-GCM crypto service for AI key encryption"
 - Create: `backend/src/routes/aiKeys.ts`
 - Modify: `backend/src/index.ts` — register route
 
-- [ ] **Step 1: Create backend/src/routes/aiKeys.ts**
+- [x] **Step 1: Create backend/src/routes/aiKeys.ts**
 
 ```typescript
 import { Hono } from 'hono'
@@ -218,7 +218,7 @@ export async function getPreferredProvider(userId: string): Promise<Provider | n
 export default aiKeys
 ```
 
-- [ ] **Step 2: Register route in backend/src/index.ts**
+- [x] **Step 2: Register route in backend/src/index.ts**
 
 ```typescript
 import aiKeysRoutes from './routes/aiKeys.js'
@@ -226,13 +226,13 @@ import aiKeysRoutes from './routes/aiKeys.js'
 app.route('/api/user/ai-keys', aiKeysRoutes)
 ```
 
-- [ ] **Step 3: Install AI SDK packages in backend**
+- [x] **Step 3: Install AI SDK packages in backend**
 
 ```bash
 cd backend && npm install @anthropic-ai/sdk openai @google/generative-ai
 ```
 
-- [ ] **Step 4: Verify key storage**
+- [x] **Step 4: Verify key storage**
 
 ```bash
 TOKEN="eyJ..."
@@ -255,7 +255,7 @@ curl -X DELETE http://localhost:3001/api/user/ai-keys/claude \
 # Expected: {"provider":"claude","connected":false}
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add backend/src/routes/aiKeys.ts backend/src/index.ts
@@ -272,7 +272,7 @@ git commit -m "feat(backend): BYOK AI key routes — encrypted store/retrieve/de
 - Create: `backend/src/services/ai/openai.ts`
 - Create: `backend/src/services/ai/gemini.ts`
 
-- [ ] **Step 1: Create provider.ts — shared interface**
+- [x] **Step 1: Create provider.ts — shared interface**
 
 ```typescript
 export interface ChatMessage {
@@ -285,7 +285,7 @@ export interface AIProvider {
 }
 ```
 
-- [ ] **Step 2: Create claude.ts**
+- [x] **Step 2: Create claude.ts**
 
 ```typescript
 import Anthropic from '@anthropic-ai/sdk'
@@ -318,7 +318,7 @@ export class ClaudeProvider implements AIProvider {
 }
 ```
 
-- [ ] **Step 3: Create openai.ts**
+- [x] **Step 3: Create openai.ts**
 
 ```typescript
 import OpenAI from 'openai'
@@ -350,7 +350,7 @@ export class OpenAIProvider implements AIProvider {
 }
 ```
 
-- [ ] **Step 4: Create gemini.ts**
+- [x] **Step 4: Create gemini.ts**
 
 ```typescript
 import { GoogleGenerativeAI } from '@google/generative-ai'
@@ -386,7 +386,7 @@ export class GeminiProvider implements AIProvider {
 }
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add backend/src/services/ai/
@@ -400,7 +400,7 @@ git commit -m "feat(backend): AIProvider abstraction — Claude, OpenAI, Gemini 
 **Files:**
 - Create: `backend/src/services/context.ts`
 
-- [ ] **Step 1: Create context.ts**
+- [x] **Step 1: Create context.ts**
 
 ```typescript
 import { prisma } from '../db/client.js'
@@ -462,7 +462,7 @@ Help the user understand, practice, and progress through their learning journey.
 }
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git add backend/src/services/context.ts
@@ -477,7 +477,7 @@ git commit -m "feat(backend): context builder — builds AI system prompt from u
 - Create: `backend/src/routes/chat.ts`
 - Modify: `backend/src/index.ts` — register route
 
-- [ ] **Step 1: Create backend/src/routes/chat.ts**
+- [x] **Step 1: Create backend/src/routes/chat.ts**
 
 ```typescript
 import { Hono } from 'hono'
@@ -601,7 +601,7 @@ chat.post('/', zValidator('json', sendSchema), async (c) => {
 export default chat
 ```
 
-- [ ] **Step 2: Register route in backend/src/index.ts**
+- [x] **Step 2: Register route in backend/src/index.ts**
 
 ```typescript
 import chatRoutes from './routes/chat.js'
@@ -609,7 +609,7 @@ import chatRoutes from './routes/chat.js'
 app.route('/api/chat', chatRoutes)
 ```
 
-- [ ] **Step 3: Verify SSE stream with a real key**
+- [x] **Step 3: Verify SSE stream with a real key**
 
 ```bash
 TOKEN="eyJ..."
@@ -627,7 +627,7 @@ curl -X POST http://localhost:3001/api/chat \
 # Expected: stream of SSE events: meta → token (repeated) → done
 ```
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add backend/src/routes/chat.ts backend/src/index.ts
@@ -643,7 +643,7 @@ git commit -m "feat(backend): SSE chat route with context injection and conversa
 
 **Does NOT cover:** auth — that's Task 16.
 
-- [ ] **Step 1: Rewrite frontend/src/services/api.ts**
+- [x] **Step 1: Rewrite frontend/src/services/api.ts**
 
 ```typescript
 import axios from 'axios'
@@ -689,7 +689,7 @@ export const api = {
 }
 ```
 
-- [ ] **Step 2: Verify the app loads texts from the real backend**
+- [x] **Step 2: Verify the app loads texts from the real backend**
 
 Start both servers:
 ```bash
@@ -702,7 +702,7 @@ cd frontend && npm run dev
 
 Open http://localhost:5173 → log in (see Task 16) → navigate to Sacred Texts. Should show texts from DB, not mock data.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add frontend/src/services/api.ts
@@ -716,7 +716,7 @@ git commit -m "feat(frontend): replace mock api.ts with real Axios calls to back
 **Files:**
 - Modify: `frontend/src/shared/contexts/AuthContext.tsx` — real login/register/logout via backend
 
-- [ ] **Step 1: Rewrite AuthContext.tsx**
+- [x] **Step 1: Rewrite AuthContext.tsx**
 
 ```typescript
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
@@ -788,11 +788,11 @@ export function useAuthContext() {
 }
 ```
 
-- [ ] **Step 2: Verify login flow**
+- [x] **Step 2: Verify login flow**
 
 With both servers running, open http://localhost:5173. The Welcome page should show a login form (existing). Log in with the test user created in Task 6. Expected: redirected to Dashboard showing user's name from the real DB.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add frontend/src/shared/contexts/AuthContext.tsx
@@ -806,7 +806,7 @@ git commit -m "feat(frontend): real JWT auth — login/register/logout backed by
 **Files:**
 - Create: `frontend/src/shared/store/chatStore.ts`
 
-- [ ] **Step 1: Create chatStore.ts**
+- [x] **Step 1: Create chatStore.ts**
 
 ```typescript
 import { create } from 'zustand'
@@ -950,7 +950,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
 }))
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git add frontend/src/shared/store/chatStore.ts
@@ -966,7 +966,7 @@ git commit -m "feat(frontend): chatStore — SSE streaming, conversation trackin
 - Create: `frontend/src/features/chat/ChatPanel.tsx`
 - Modify: `frontend/src/shared/layout/Layout.tsx` — add ChatPanel + floating button
 
-- [ ] **Step 1: Create ChatMessage.tsx**
+- [x] **Step 1: Create ChatMessage.tsx**
 
 ```typescript
 interface Props {
@@ -994,7 +994,7 @@ export default function ChatMessage({ role, content, streaming }: Props) {
 }
 ```
 
-- [ ] **Step 2: Create ChatPanel.tsx**
+- [x] **Step 2: Create ChatPanel.tsx**
 
 ```typescript
 import { useEffect, useRef, useState } from 'react'
@@ -1127,7 +1127,7 @@ export default function ChatPanel() {
 }
 ```
 
-- [ ] **Step 3: Add ChatPanel + floating button to Layout.tsx**
+- [x] **Step 3: Add ChatPanel + floating button to Layout.tsx**
 
 Read `frontend/src/shared/layout/Layout.tsx`, then add the imports and the floating button + panel before the closing `</div>` of the layout wrapper:
 
@@ -1152,7 +1152,7 @@ const { isOpen, openChat } = useChatStore()
 </>
 ```
 
-- [ ] **Step 4: Create `frontend/src/features/chat/` directory and verify**
+- [x] **Step 4: Create `frontend/src/features/chat/` directory and verify**
 
 ```bash
 mkdir -p frontend/src/features/chat
@@ -1160,7 +1160,7 @@ mkdir -p frontend/src/features/chat
 
 Run the frontend and verify the floating button appears and the panel opens/closes.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add frontend/src/features/chat/ frontend/src/shared/layout/Layout.tsx
@@ -1175,7 +1175,7 @@ git commit -m "feat(frontend): floating ChatPanel UI with SSE streaming and mess
 - Create: `frontend/src/pages/SettingsPage.tsx`
 - Modify: `frontend/src/app/router.tsx` (or App.tsx) — add `/settings` route
 
-- [ ] **Step 1: Create SettingsPage.tsx**
+- [x] **Step 1: Create SettingsPage.tsx**
 
 ```typescript
 import { useState, useEffect } from 'react'
@@ -1311,7 +1311,7 @@ export default function SettingsPage() {
 }
 ```
 
-- [ ] **Step 2: Add route to App.tsx**
+- [x] **Step 2: Add route to App.tsx**
 
 In `frontend/src/App.tsx`, add a lazy import and route for SettingsPage inside the ProtectedRoute section:
 
@@ -1322,7 +1322,7 @@ const SettingsPage = lazy(() => import('./pages/SettingsPage'))
 <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
 ```
 
-- [ ] **Step 3: Add Settings link to Header**
+- [x] **Step 3: Add Settings link to Header**
 
 In `frontend/src/shared/layout/Header.tsx`, add a link to `/settings` next to the logout button:
 
@@ -1334,14 +1334,14 @@ import { Link } from 'react-router-dom'
 </Link>
 ```
 
-- [ ] **Step 4: Verify end-to-end**
+- [x] **Step 4: Verify end-to-end**
 
 1. Log in → click Settings link in header → Settings page loads
 2. Enter a real API key → click Save → "Connected" badge appears
 3. Open chat panel (⚡ button) → type a message → response streams in
 4. Reload page → connected status persists (from DB)
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add frontend/src/pages/SettingsPage.tsx frontend/src/App.tsx frontend/src/shared/layout/Header.tsx
