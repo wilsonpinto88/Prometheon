@@ -1,38 +1,42 @@
-import { SacredText } from '../shared/types/sacredText'
-import { Task } from '../shared/types/task'
-import { mockTexts } from '../data/mockTexts'
-import { mockTasks } from '../data/mockTasks'
+import axios from 'axios'
 
-const delay = (ms: number) => new Promise<void>((res) => setTimeout(res, ms))
+const client = axios.create({ baseURL: '/' })
+
+client.interceptors.request.use((config) => {
+  const token = localStorage.getItem('auth_token')
+  if (token) config.headers.Authorization = `Bearer ${token}`
+  return config
+})
 
 export const api = {
-  async updateTaskComplete(id: string, _completed: boolean): Promise<void> {
-    await delay(600)
-    if (Math.random() < 0.2) throw new Error('Server error. Change reverted.')
-    void id
+  async fetchTexts() {
+    const { data } = await client.get('/api/texts')
+    return data
   },
 
-  async fetchTexts(): Promise<SacredText[]> {
-    await delay(400)
-    return mockTexts
+  async fetchTextById(id: string) {
+    const { data } = await client.get(`/api/texts/${id}`)
+    return data
   },
 
-  async fetchTextById(id: string): Promise<SacredText> {
-    await delay(400)
-    const text = mockTexts.find((t) => t.id === id)
-    if (!text) throw new Error('Sacred text not found.')
-    return text
+  async fetchTasks() {
+    const { data } = await client.get('/api/tasks')
+    return data
   },
 
-  async fetchTasks(): Promise<Task[]> {
-    await delay(400)
-    return mockTasks
+  async fetchTaskById(id: string) {
+    const { data } = await client.get(`/api/tasks/${id}`)
+    return data
   },
 
-  async fetchTaskById(id: string): Promise<Task> {
-    await delay(400)
-    const task = mockTasks.find((t) => t.id === id)
-    if (!task) throw new Error('Task not found.')
-    return task
+  // Backend endpoint is a toggle; second arg kept for caller compatibility
+  async updateTaskComplete(taskId: string, _completed?: boolean) {
+    const { data } = await client.patch(`/api/progress/tasks/${taskId}/complete`)
+    return data
+  },
+
+  async fetchProgress() {
+    const { data } = await client.get('/api/progress')
+    return data
   },
 }
